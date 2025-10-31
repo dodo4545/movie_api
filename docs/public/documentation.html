@@ -51,6 +51,8 @@
         }
         .get { background-color: #28a745; }
         .post { background-color: #007bff; }
+        .put { background-color: #ffc107; color: #212529; }
+        .delete { background-color: #dc3545; }
         .url {
             font-family: 'Courier New', monospace;
             background: #e9ecef;
@@ -125,7 +127,79 @@
 node index.js</div>
         <p>The server will start on port 8080 and you can access all endpoints listed below.</p>
 
-        <h2>📍 API Endpoints</h2>
+        <h2>📍 API Endpoints Overview</h2>
+        
+        <div class="info-box">
+            <h3>🎯 Endpoint Summary Table</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Request</th>
+                        <th>URL</th>
+                        <th>HTTP Method</th>
+                        <th>Response</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Get all movies</td>
+                        <td>/movies</td>
+                        <td>GET</td>
+                        <td>JSON array of all movies</td>
+                    </tr>
+                    <tr>
+                        <td>Get movie by title</td>
+                        <td>/movies/[Title]</td>
+                        <td>GET</td>
+                        <td>JSON object with movie data</td>
+                    </tr>
+                    <tr>
+                        <td>Get genre info</td>
+                        <td>/movies/genre/[GenreName]</td>
+                        <td>GET</td>
+                        <td>JSON object with genre data</td>
+                    </tr>
+                    <tr>
+                        <td>Get director info</td>
+                        <td>/movies/directors/[DirectorName]</td>
+                        <td>GET</td>
+                        <td>JSON object with director data</td>
+                    </tr>
+                    <tr>
+                        <td>User registration</td>
+                        <td>/users</td>
+                        <td>POST</td>
+                        <td>JSON object with user data</td>
+                    </tr>
+                    <tr>
+                        <td>Update user info</td>
+                        <td>/users/[Username]</td>
+                        <td>PUT</td>
+                        <td>JSON object with updated user data</td>
+                    </tr>
+                    <tr>
+                        <td>Add to favorites</td>
+                        <td>/users/[Username]/movies/[MovieID]</td>
+                        <td>POST</td>
+                        <td>Text message confirming addition</td>
+                    </tr>
+                    <tr>
+                        <td>Remove from favorites</td>
+                        <td>/users/[Username]/movies/[MovieID]</td>
+                        <td>DELETE</td>
+                        <td>Text message confirming removal</td>
+                    </tr>
+                    <tr>
+                        <td>Delete user</td>
+                        <td>/users/[Username]</td>
+                        <td>DELETE</td>
+                        <td>Text message confirming deletion</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>📍 Detailed API Endpoints</h2>
 
         <!-- Root Endpoint -->
         <div class="endpoint">
@@ -146,113 +220,317 @@ node index.js</div>
             <div class="code-block">curl http://localhost:8080/</div>
         </div>
 
-        <!-- Movies Endpoint -->
+        <!-- Get All Movies -->
         <div class="endpoint">
             <h3>
                 <span class="method get">GET</span>
                 <span class="url">/movies</span>
             </h3>
-            <p><strong>Description:</strong> Retrieves a list of the top 10 movies with detailed information including title, year, director, and genre.</p>
+            <p><strong>Description:</strong> Returns a complete list of all movies in the database with detailed information including title, year, director, and genre.</p>
             
-            <h4>Response</h4>
+            <h4>Query Parameters</h4>
+            <div class="parameter">None</div>
+
+            <h4>Request Body</h4>
+            <div class="parameter">None</div>
+            
+            <h4>Response Format</h4>
             <div class="response-example">
                 <strong>Status:</strong> 200 OK<br>
                 <strong>Content-Type:</strong> application/json<br><br>
-                <div class="code-block">{
-  "message": "Top 10 Movies",
-  "count": 10,
-  "movies": [
-    {
-      "id": 1,
-      "title": "The Shawshank Redemption",
-      "year": 1994,
-      "director": "Frank Darabont",
-      "genre": "Drama"
+                <div class="code-block">[
+  {
+    "id": 1,
+    "title": "The Shawshank Redemption",
+    "year": 1994,
+    "director": {
+      "name": "Frank Darabont",
+      "bio": "American director and screenwriter",
+      "birth": "1959"
     },
-    {
-      "id": 2,
-      "title": "The Godfather",
-      "year": 1972,
-      "director": "Francis Ford Coppola",
-      "genre": "Crime, Drama"
-    }
-    // ... 8 more movies
-  ]
-}</div>
+    "genre": {
+      "name": "Drama",
+      "description": "Serious narrative fiction"
+    },
+    "imageURL": "shawshank.jpg",
+    "featured": true
+  }
+]</div>
             </div>
-
-            <h4>Movie Object Properties</h4>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Property</th>
-                        <th>Type</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>id</td>
-                        <td>number</td>
-                        <td>Unique identifier for the movie</td>
-                    </tr>
-                    <tr>
-                        <td>title</td>
-                        <td>string</td>
-                        <td>The movie title</td>
-                    </tr>
-                    <tr>
-                        <td>year</td>
-                        <td>number</td>
-                        <td>Release year of the movie</td>
-                    </tr>
-                    <tr>
-                        <td>director</td>
-                        <td>string</td>
-                        <td>Director(s) of the movie</td>
-                    </tr>
-                    <tr>
-                        <td>genre</td>
-                        <td>string</td>
-                        <td>Genre(s) of the movie</td>
-                    </tr>
-                </tbody>
-            </table>
 
             <h4>Example Request</h4>
             <div class="code-block">curl http://localhost:8080/movies</div>
         </div>
 
-        <!-- Create Movie Endpoint -->
+        <!-- Get Movie by Title -->
         <div class="endpoint">
             <h3>
-                <span class="method post">POST</span>
-                <span class="url">/movies</span>
+                <span class="method get">GET</span>
+                <span class="url">/movies/:title</span>
             </h3>
-            <p><strong>Description:</strong> Demonstrates the API's ability to receive and process movie data (for testing purposes).</p>
+            <p><strong>Description:</strong> Returns detailed information about a specific movie by its title.</p>
             
-            <h4>Request Body</h4>
+            <h4>URL Parameters</h4>
             <div class="parameter">
-                <strong>Content-Type:</strong> application/json<br>
-                Send any JSON data to test the body parsing functionality.
+                <strong>title</strong> (string): The exact title of the movie (case-sensitive)
             </div>
 
-            <h4>Response</h4>
+            <h4>Request Body</h4>
+            <div class="parameter">None</div>
+            
+            <h4>Response Format</h4>
             <div class="response-example">
                 <strong>Status:</strong> 200 OK<br>
                 <strong>Content-Type:</strong> application/json<br><br>
                 <div class="code-block">{
-  "message": "Movie created successfully",
-  "receivedData": {
-    // Your submitted data will be echoed back here
-  }
+  "id": 1,
+  "title": "The Shawshank Redemption",
+  "year": 1994,
+  "director": {
+    "name": "Frank Darabont",
+    "bio": "American director and screenwriter",
+    "birth": "1959"
+  },
+  "genre": {
+    "name": "Drama",
+    "description": "Serious narrative fiction"
+  },
+  "imageURL": "shawshank.jpg",
+  "featured": true
 }</div>
             </div>
 
             <h4>Example Request</h4>
-            <div class="code-block">curl -X POST http://localhost:8080/movies \
+            <div class="code-block">curl http://localhost:8080/movies/The%20Shawshank%20Redemption</div>
+        </div>
+
+        <!-- Get Genre Info -->
+        <div class="endpoint">
+            <h3>
+                <span class="method get">GET</span>
+                <span class="url">/movies/genre/:genreName</span>
+            </h3>
+            <p><strong>Description:</strong> Returns detailed information about a specific genre including its description and characteristics.</p>
+            
+            <h4>URL Parameters</h4>
+            <div class="parameter">
+                <strong>genreName</strong> (string): The name of the genre (e.g., "Drama", "Action", "Comedy")
+            </div>
+
+            <h4>Request Body</h4>
+            <div class="parameter">None</div>
+            
+            <h4>Response Format</h4>
+            <div class="response-example">
+                <strong>Status:</strong> 200 OK<br>
+                <strong>Content-Type:</strong> application/json<br><br>
+                <div class="code-block">{
+  "name": "Drama",
+  "description": "Drama films are serious presentations or stories with settings or life situations that portray realistic characters in conflict with either themselves, others, or forces of nature."
+}</div>
+            </div>
+
+            <h4>Example Request</h4>
+            <div class="code-block">curl http://localhost:8080/movies/genre/Drama</div>
+        </div>
+
+        <!-- Get Director Info -->
+        <div class="endpoint">
+            <h3>
+                <span class="method get">GET</span>
+                <span class="url">/movies/directors/:directorName</span>
+            </h3>
+            <p><strong>Description:</strong> Returns detailed information about a specific director including biography, birth year, and filmography.</p>
+            
+            <h4>URL Parameters</h4>
+            <div class="parameter">
+                <strong>directorName</strong> (string): The name of the director (e.g., "Frank Darabont")
+            </div>
+
+            <h4>Request Body</h4>
+            <div class="parameter">None</div>
+            
+            <h4>Response Format</h4>
+            <div class="response-example">
+                <strong>Status:</strong> 200 OK<br>
+                <strong>Content-Type:</strong> application/json<br><br>
+                <div class="code-block">{
+  "name": "Frank Darabont",
+  "bio": "American director, screenwriter, and producer known for his work on drama films.",
+  "birth": "1959",
+  "death": null
+}</div>
+            </div>
+
+            <h4>Example Request</h4>
+            <div class="code-block">curl http://localhost:8080/movies/directors/Frank%20Darabont</div>
+        </div>
+
+        <!-- User Registration -->
+        <div class="endpoint">
+            <h3>
+                <span class="method post">POST</span>
+                <span class="url">/users</span>
+            </h3>
+            <p><strong>Description:</strong> Allows new users to register by providing username, password, email, and birthday.</p>
+            
+            <h4>Query Parameters</h4>
+            <div class="parameter">None</div>
+
+            <h4>Request Body Format</h4>
+            <div class="parameter">
+                <strong>Content-Type:</strong> application/json<br><br>
+                <div class="code-block">{
+  "username": "moviefan123",
+  "password": "securePassword",
+  "email": "user@example.com",
+  "birthday": "1990-01-15"
+}</div>
+            </div>
+            
+            <h4>Response Format</h4>
+            <div class="response-example">
+                <strong>Status:</strong> 201 Created<br>
+                <strong>Content-Type:</strong> application/json<br><br>
+                <div class="code-block">{
+  "id": 1,
+  "username": "moviefan123",
+  "email": "user@example.com",
+  "birthday": "1990-01-15",
+  "favoriteMovies": []
+}</div>
+            </div>
+
+            <h4>Example Request</h4>
+            <div class="code-block">curl -X POST http://localhost:8080/users \
   -H "Content-Type: application/json" \
-  -d '{"title": "New Movie", "year": 2025}'</div>
+  -d '{"username": "moviefan123", "password": "securePassword", "email": "user@example.com", "birthday": "1990-01-15"}'</div>
+        </div>
+
+        <!-- Update User Info -->
+        <div class="endpoint">
+            <h3>
+                <span class="method put">PUT</span>
+                <span class="url">/users/:username</span>
+            </h3>
+            <p><strong>Description:</strong> Allows users to update their personal information including username, password, email, and birthday.</p>
+            
+            <h4>URL Parameters</h4>
+            <div class="parameter">
+                <strong>username</strong> (string): The current username of the user
+            </div>
+
+            <h4>Request Body Format</h4>
+            <div class="parameter">
+                <strong>Content-Type:</strong> application/json<br><br>
+                <div class="code-block">{
+  "username": "newUsername",
+  "password": "newPassword",
+  "email": "newemail@example.com",
+  "birthday": "1990-01-15"
+}</div>
+            </div>
+            
+            <h4>Response Format</h4>
+            <div class="response-example">
+                <strong>Status:</strong> 200 OK<br>
+                <strong>Content-Type:</strong> application/json<br><br>
+                <div class="code-block">{
+  "id": 1,
+  "username": "newUsername",
+  "email": "newemail@example.com",
+  "birthday": "1990-01-15",
+  "favoriteMovies": [1, 3, 5]
+}</div>
+            </div>
+
+            <h4>Example Request</h4>
+            <div class="code-block">curl -X PUT http://localhost:8080/users/moviefan123 \
+  -H "Content-Type: application/json" \
+  -d '{"email": "newemail@example.com"}'</div>
+        </div>
+
+        <!-- Add to Favorites -->
+        <div class="endpoint">
+            <h3>
+                <span class="method post">POST</span>
+                <span class="url">/users/:username/movies/:movieID</span>
+            </h3>
+            <p><strong>Description:</strong> Allows users to add a movie to their list of favorite movies.</p>
+            
+            <h4>URL Parameters</h4>
+            <div class="parameter">
+                <strong>username</strong> (string): The username of the user<br>
+                <strong>movieID</strong> (number): The ID of the movie to add to favorites
+            </div>
+
+            <h4>Request Body</h4>
+            <div class="parameter">None</div>
+            
+            <h4>Response Format</h4>
+            <div class="response-example">
+                <strong>Status:</strong> 200 OK<br>
+                <strong>Content-Type:</strong> text/plain<br><br>
+                <div class="code-block">Movie with ID 1 has been added to moviefan123's favorites.</div>
+            </div>
+
+            <h4>Example Request</h4>
+            <div class="code-block">curl -X POST http://localhost:8080/users/moviefan123/movies/1</div>
+        </div>
+
+        <!-- Remove from Favorites -->
+        <div class="endpoint">
+            <h3>
+                <span class="method delete">DELETE</span>
+                <span class="url">/users/:username/movies/:movieID</span>
+            </h3>
+            <p><strong>Description:</strong> Allows users to remove a movie from their list of favorite movies.</p>
+            
+            <h4>URL Parameters</h4>
+            <div class="parameter">
+                <strong>username</strong> (string): The username of the user<br>
+                <strong>movieID</strong> (number): The ID of the movie to remove from favorites
+            </div>
+
+            <h4>Request Body</h4>
+            <div class="parameter">None</div>
+            
+            <h4>Response Format</h4>
+            <div class="response-example">
+                <strong>Status:</strong> 200 OK<br>
+                <strong>Content-Type:</strong> text/plain<br><br>
+                <div class="code-block">Movie with ID 1 has been removed from moviefan123's favorites.</div>
+            </div>
+
+            <h4>Example Request</h4>
+            <div class="code-block">curl -X DELETE http://localhost:8080/users/moviefan123/movies/1</div>
+        </div>
+
+        <!-- Delete User -->
+        <div class="endpoint">
+            <h3>
+                <span class="method delete">DELETE</span>
+                <span class="url">/users/:username</span>
+            </h3>
+            <p><strong>Description:</strong> Allows users to deregister and delete their account from the system.</p>
+            
+            <h4>URL Parameters</h4>
+            <div class="parameter">
+                <strong>username</strong> (string): The username of the user to delete
+            </div>
+
+            <h4>Request Body</h4>
+            <div class="parameter">None</div>
+            
+            <h4>Response Format</h4>
+            <div class="response-example">
+                <strong>Status:</strong> 200 OK<br>
+                <strong>Content-Type:</strong> text/plain<br><br>
+                <div class="code-block">User moviefan123 has been deleted successfully.</div>
+            </div>
+
+            <h4>Example Request</h4>
+            <div class="code-block">curl -X DELETE http://localhost:8080/users/moviefan123</div>
         </div>
 
         <!-- Documentation Endpoint -->
