@@ -1,3 +1,12 @@
+const mongoose = require("mongoose");
+const Models = require("../models.js");
+
+const Movies = Models.Movie;
+const Users = Models.User;
+
+// Connect to MongoDB
+mongoose.connect("mongodb://localhost:27017/movieapiDB");
+
 // index.js - Main entry point for the movie API project
 console.log("Welcome to the Movie API!");
 
