@@ -1,12 +1,13 @@
 // seed_database.js - Script to populate MongoDB with sample data
+require("dotenv").config();
 const mongoose = require("mongoose");
 const Models = require("./models.js");
 
 const Movies = Models.Movie;
 const Users = Models.User;
 
-// Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/movieapiDB");
+// Connect to MongoDB Atlas
+mongoose.connect(process.env.CONNECTION_URI || "mongodb://localhost:27017/movieapiDB");
 
 // Sample movies data
 const sampleMovies = [
