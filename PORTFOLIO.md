@@ -72,12 +72,14 @@ The Movie API is a RESTful web service built with Node.js and Express that provi
 ![User Registration - Invalid Data](screenshots/user-registration-invalid.png)
 *Postman testing with invalid data showing validation errors*
 
+![Login with JWT Token](screenshots/login-jwt-token.png)
+*Login request returning JWT token*
+
 ![Protected Endpoint - Get Movies](screenshots/get-movies-protected.png)
 *GET /movies request with Bearer token authentication*
 
-**Still needed:**
-- `login-jwt-token.png` - Login request returning JWT token
-- `mongodb-atlas-collections.png` - MongoDB Atlas showing movieapidb database with collections
+![MongoDB Atlas Collections](screenshots/mongodb-atlas-collections.png)
+*MongoDB Atlas showing movieapidb database with collections*
 - Heroku dashboard showing deployed application
 
 ### Links
