@@ -7,7 +7,7 @@ const Movies = Models.Movie;
 const Users = Models.User;
 
 // Connect to MongoDB Atlas
-mongoose.connect(process.env.CONNECTION_URI || "mongodb://localhost:27017/movieapiDB");
+mongoose.connect(process.env.CONNECTION_URI || "mongodb://localhost:27017/myFlix");
 
 // Sample movies data
 const sampleMovies = [

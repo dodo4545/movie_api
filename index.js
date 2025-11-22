@@ -16,7 +16,7 @@ const Movies = Models.Movie;
 const Users = Models.User;
 
 // Connect to MongoDB
-mongoose.connect( process.env.CONNECTION_URI || "mongodb://localhost:27017/movieapiDB");
+mongoose.connect( process.env.CONNECTION_URI || "mongodb://localhost:27017/myFlix");
 
 const app = express();
 const cors = require("cors");
