@@ -1,10 +1,12 @@
+require('dotenv').config();
+
 const passport = require("passport"),
   LocalStrategy = require("passport-local").Strategy,
   Models = require("./models.js"),
   passportJWT = require("passport-jwt"),
   jwt = require("jsonwebtoken");
 
-const jwtSecret = "your_jwt_secret"; // This has to be the same key used in the JWTStrategy
+const jwtSecret = process.env.JWT_SECRET; // This has to be the same key used in the JWTStrategy
 
 let Users = Models.User,
   JWTStrategy = passportJWT.Strategy,
