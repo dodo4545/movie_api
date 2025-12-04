@@ -124,6 +124,11 @@ app.post("/users", async (req, res) => {
 
 // Update user information (Protected)
 app.put("/users/:Username", passport.authenticate("jwt", { session: false }), async (req, res) => {
+  // Check if the authenticated user matches the user being updated
+  if (req.user.Username !== req.params.Username) {
+    return res.status(403).send("Permission denied: You can only update your own account.");
+  }
+
   await Users.findOneAndUpdate(
     { Username: req.params.Username },
     {
@@ -151,6 +156,11 @@ app.put("/users/:Username", passport.authenticate("jwt", { session: false }), as
 
 // Add movie to user's favorites (Protected)
 app.post("/users/:Username/movies/:MovieID", passport.authenticate("jwt", { session: false }), async (req, res) => {
+  // Check if the authenticated user matches the user being updated
+  if (req.user.Username !== req.params.Username) {
+    return res.status(403).send("Permission denied: You can only modify your own favorites.");
+  }
+
   await Users.findOneAndUpdate(
     { Username: req.params.Username },
     {
@@ -173,6 +183,11 @@ app.post("/users/:Username/movies/:MovieID", passport.authenticate("jwt", { sess
 
 // Remove movie from user's favorites (Protected)
 app.delete("/users/:Username/movies/:MovieID", passport.authenticate("jwt", { session: false }), async (req, res) => {
+  // Check if the authenticated user matches the user being updated
+  if (req.user.Username !== req.params.Username) {
+    return res.status(403).send("Permission denied: You can only modify your own favorites.");
+  }
+
   await Users.findOneAndUpdate(
     { Username: req.params.Username },
     {
@@ -195,6 +210,11 @@ app.delete("/users/:Username/movies/:MovieID", passport.authenticate("jwt", { se
 
 // Delete user (Protected)
 app.delete("/users/:Username", passport.authenticate("jwt", { session: false }), async (req, res) => {
+  // Check if the authenticated user matches the user being deleted
+  if (req.user.Username !== req.params.Username) {
+    return res.status(403).send("Permission denied: You can only delete your own account.");
+  }
+
   await Users.findOneAndDelete({ Username: req.params.Username })
     .then((user) => {
       if (user) {
